@@ -18,6 +18,8 @@ char_to_idx = {ch: i for i, ch in enumerate(chars)}
 idx_to_char = {i: ch for i, ch in enumerate(chars)}
 vocab_size = len(chars)
 
+print(f"Number of unique characters: {vocab_size}")
+
 seq_length = 100
 step = 1
 sequences = []
@@ -27,6 +29,13 @@ for i in range(0, len(text) - seq_length, step):
     sequences.append(text[i:i + seq_length])
     next_chars.append(text[i + seq_length])
 
+print(f"Number of sequences: {len(sequences)}")
+
+# Reduce the dataset size by taking a smaller subset
+subset_size = 100000  # Adjust this value based on your system's memory capacity
+sequences = sequences[:subset_size]
+next_chars = next_chars[:subset_size]
+
 X = np.zeros((len(sequences), seq_length, vocab_size), dtype=np.float32)
 y = np.zeros((len(sequences), vocab_size), dtype=np.float32)
 
@@ -34,6 +43,8 @@ for i, seq in enumerate(sequences):
     for t, char in enumerate(seq):
         X[i, t, char_to_idx[char]] = 1
     y[i, char_to_idx[next_chars[i]]] = 1
+
+print(f"X shape: {X.shape}, y shape: {y.shape}")
 
 # Custom Dataset for DataLoader
 class ShakespeareDataset(Dataset):
@@ -49,6 +60,8 @@ class ShakespeareDataset(Dataset):
 
 dataset = ShakespeareDataset(X, y)
 dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
+
+print(f"Number of batches: {len(dataloader)}")
 
 # Define the LSTM model
 class ShakespeareModel(nn.Module):
@@ -81,9 +94,9 @@ optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 # Training the model
 for epoch in range(num_epochs):
     model.train()
-    hidden = model.init_hidden(64)
     for inputs, targets in dataloader:
         inputs, targets = inputs.to(device), targets.to(device)
+        hidden = model.init_hidden(inputs.size(0))  # Use the current batch size
         hidden = tuple([h.data for h in hidden])  # Detach hidden state to avoid backprop through time
         outputs, hidden = model(inputs, hidden)
         loss = criterion(outputs, torch.argmax(targets, dim=1))

@@ -13,13 +13,7 @@ This repository contains the implementation of a **Shakespearean Style Text Gene
 - [License](#license)
 
 ## Overview
-This project leverages modern natural language processing (NLP) techniques to generate text in the style of William Shakespeare. The generator is trained on Shakespeare's plays, sonnets, and other works to produce text that mimics his characteristic tone, vocabulary, and sentence structure.
-
-## Features
-- **Customizable Output:** Specify the length and starting prompt for the generated text.
-- **Fine-tuned Language Model:** Uses a pre-trained transformer model fine-tuned on Shakespearean text.
-- **Interactive Mode:** Allows users to input prompts interactively for on-the-fly text generation.
-- **Flexible Generation Parameters:** Customize temperature, top-k, and top-p settings for diverse outputs.
+This project leverages modern natural language processing (NLP) techniques to generate text in the style of William Shakespeare. The LSTM-based generator is trained on Shakespeare's plays, sonnets, and other works to produce text that mimics his characteristic tone, vocabulary, and sentence structure.
 
 ## Usage
 
@@ -39,34 +33,49 @@ pip install -r requirements.txt
 ### Running the Script
 To generate text, run the `generate_text.py` script:
 
-```bash
-python generate_text.py --prompt "To be or not to be" --max_length 50 --temperature 0.8
-```
 
-#### Command-line Arguments
-- `--prompt`: The starting text for the generator (default: empty string).
-- `--max_length`: Maximum length of the generated text (default: 50).
-- `--temperature`: Sampling temperature to control randomness (default: 1.0).
-- `--top_k`: Top-k sampling for controlling vocabulary size (default: 50).
-- `--top_p`: Top-p (nucleus) sampling for probability mass cutoff (default: 0.9).
-
-### Interactive Mode
-You can also run the generator in interactive mode:
-
-```bash
-python generate_text.py --interactive
-```
-
-## Example Output
+## Example Output after 20 epochs
 Generated text example:
 ```
-Prompt: "Shall I compare thee"
+Using device: mps
+Number of unique characters: 84
+Number of sequences: 5447644
+X shape: (100000, 100, 84), y shape: (100000, 84)
+Number of batches: 1563
+Epoch 1/20, Loss: 2.2491
+Epoch 2/20, Loss: 1.6079
+Epoch 3/20, Loss: 1.2177
+Epoch 4/20, Loss: 1.4938
+Epoch 5/20, Loss: 1.0293
+Epoch 6/20, Loss: 1.6013
+Epoch 7/20, Loss: 1.3076
+Epoch 8/20, Loss: 1.1662
+Epoch 9/20, Loss: 1.1459
+Epoch 10/20, Loss: 1.9947
+Epoch 11/20, Loss: 0.8929
+Epoch 12/20, Loss: 0.9806
+Epoch 13/20, Loss: 1.8229
+Epoch 14/20, Loss: 1.3903
+Epoch 15/20, Loss: 0.9596
+Epoch 16/20, Loss: 1.0616
+Epoch 17/20, Loss: 0.8272
+Epoch 18/20, Loss: 0.8964
+Epoch 19/20, Loss: 0.9297
+Epoch 20/20, Loss: 0.4107
+To be or not to be, that is the question: :,::,::,,e:.:.,
 
-Output:
-Shall I compare thee to a summer's day?
-Thy beauty shines with such celestial rays.
-The winds do whisper softly through the leaves,
-And time doth pause, thy splendor to perceive.
+ss
+ss::::..
+:.essces-sstslsefsa  sie i ls I behair in me,
+  Weils men's eyes well I was tull is fliet,
+  As on the old to stoph, not by diest sweet
+  Crowning outling worse with a post so graces,
+  But in the wrange, from my slame be not face,
+  Whilst my flesh binds for bemonn every pied,
+  And I your shand it her falseso to your.
+  O let me love herce issancess agessed 'might,
+  Which eyes invine to return of strangely?
+  And ceeping of my sin, growth to sway.
 ```
 
 ## Dependencies
